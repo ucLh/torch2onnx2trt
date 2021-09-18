@@ -1,5 +1,6 @@
 import subprocess
 from enum import Enum
+from typing import Tuple
 
 import onnx
 import torch
@@ -12,8 +13,28 @@ class PrecisionModes(Enum):
     # int8 = 'int8', '--int8'
 
 
-def convert_torch2onnx(in_model, out_model_path, input_shape, input_names=('input_0',),
-                       output_names=('output_0',), opset_version=9):
+def convert_torch2onnx(in_model: torch.nn.Module, out_model_path: str, input_shape: Tuple[int],
+                       input_names: Tuple[str] = ('input_0',),
+                       output_names: Tuple[str] = ('output_0',),
+                       opset_version: int = 9):
+    """
+    This function converts PyTorch models to ONNX using both built-in pytorch functionality
+    and onnxsim package. The usage of onnxsim is important if you want to port the
+    model to TensorRT later.
+    :param in_model: torch.nn.Module model that needs to be converted to ONNX
+    :param out_model_path: Output path for saving resulting ONNX model
+    :param input_shape: ONNX models expect input of fixed shape so you need to provide it
+    :param input_names: Names for all of your model input nodes. You will need them later for
+    TensorRT inference. By default the function expects model with one input and assigns
+    the name 'input_0' to it
+    :param output_names: Names for all of your model output nodes. You will need them later for
+    TensorRT inference. By default the function expects model with one output and assigns
+    the name 'output_0' to it
+    :param opset_version: ONNX paramater that defines the set of operations used for parsing
+    model to ONNX. By default opset is set to 9. I was able to get correct results for segmentation
+    models using this older opset. Despite the ONNX warnings, opsets higher than 11 yielded
+    models with incorrect result in contrast with opsets 9 and 10.
+    """
     device = torch.device('cpu')
     in_model.to(device)
     in_model.eval()
@@ -28,7 +49,7 @@ def convert_torch2onnx(in_model, out_model_path, input_shape, input_names=('inpu
                       verbose=True, output_names=output_names,
                       input_names=input_names, opset_version=opset_version)
 
-    # Simplify the onnx network, it is needed for later TensorRT conversion
+    # Simplify the ONNX network, it is needed for later TensorRT conversion
     # Some network backbones, like ResNet, should work without it, but for EfficientNet you need it
     model_onnx = onnx.load(out_model_path)
     model_simp, check = simplify(model_onnx)
@@ -39,7 +60,15 @@ def convert_torch2onnx(in_model, out_model_path, input_shape, input_names=('inpu
     print(f'Model exported to: {out_model_path}')
 
 
-def convert_onnx2torch(in_model, out_model_path, precision='fp16', workspace=2048):
+def convert_onnx2torch(in_model: str, out_model_path: str, precision: str = 'fp16', workspace: int = 2048):
+    """
+    This function converts ONNX model to TensorRT using subprocess package and trtexec command line tool
+    :param in_model: Path to ONNX model that needs to be converted to TensorRT
+    :param out_model_path: Output path for saving resulting TensorRT model
+    :param precision: What precision to use for model conversion.
+    'fp32' and 'fp16' are the only available options for now
+    :param workspace: How much Mb of GPU memory to allocate for conversion
+    """
     command = f'/usr/src/tensorrt/bin/trtexec --onnx={in_model} --explicitBatch --workspace={workspace} --saveEngine={out_model_path}'
 
     use_precision = None
