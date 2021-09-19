@@ -13,7 +13,7 @@ class PrecisionModes(Enum):
     # int8 = 'int8', '--int8'
 
 
-def convert_torch2onnx(in_model: torch.nn.Module, out_model_path: str, input_shape: Tuple[int],
+def convert_torch2onnx(in_model: torch.nn.Module, out_model_path: str, input_shape: Tuple[int, ...],
                        input_names: Tuple[str] = ('input_0',),
                        output_names: Tuple[str] = ('output_0',),
                        opset_version: int = 9):

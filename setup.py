@@ -1,10 +1,10 @@
-from setuptools import setup
+from setuptools import find_packages, setup
 
 setup(
     name='torch2trt',
     version='0.1',
-    packages=['torch2trt'],
-    url='',
+    packages=find_packages(exclude='tests'),
+    url='https://github.com/ucLh/torch2trt',
     license='MIT',
     author='Vladimir Luchinskiy',
     author_email='',
