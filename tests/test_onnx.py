@@ -15,8 +15,8 @@ class TestConversion(unittest.TestCase):
         dummy_input = np.ones(input_size).astype(np.float32)
 
         # Convert to onnx
-        onnx_model_path = 'effnetb0_unet_gray_2grass_iou55.onnx'
-        model = Unet(encoder_name='efficientnet-b0', classes=11)
+        onnx_model_path = 'dummy.onnx'
+        model = Unet(encoder_name='efficientnet-b0', classes=1)
         model.encoder.set_swish(memory_efficient=False)
         convert_torch2onnx(model, onnx_model_path, input_size)
 
