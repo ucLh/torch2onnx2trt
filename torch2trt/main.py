@@ -60,7 +60,7 @@ def convert_torch2onnx(in_model: torch.nn.Module, out_model_path: str, input_sha
     print(f'Model exported to: {out_model_path}')
 
 
-def convert_onnx2torch(in_model: str, out_model_path: str, precision: str = 'fp16', workspace: int = 2048):
+def convert_onnx2trt(in_model: str, out_model_path: str, precision: str = 'fp16', workspace: int = 2048):
     """
     This function converts ONNX model to TensorRT using subprocess package and trtexec command line tool
     :param in_model: Path to ONNX model that needs to be converted to TensorRT

@@ -1,1 +1,1 @@
-from .main import convert_torch2onnx, convert_onnx2torch
+from .main import convert_torch2onnx, convert_onnx2trt
