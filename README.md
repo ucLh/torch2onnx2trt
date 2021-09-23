@@ -18,13 +18,13 @@ pip3 install -e ./
 
 #### Usage
 ```python
-from torch2trt import convert_torch2onnx, convert_onnx2torch
-# Load your model
-model = ...
+from torch2trt import convert_torch2onnx, convert_onnx2trt
+# Load your pretrained model
+pretrained_model = ...
 # You need to pass your model with loaded weights, an output path for onnx model
 # and desired input shape to convert_torch2onnx function
-convert_torch2onnx(model, 'effnetb0_unet_gray_2grass_iou55.onnx', (1, 3, 640, 1280))
-# convert_onnx2torch expects a path to onnx model and an output path for resulting
+convert_torch2onnx(pretrained_model, 'effnetb0_unet_gray_2grass_iou55.onnx', (1, 3, 640, 1280))
+# convert_onnx2trt expects a path to onnx model and an output path for resulting
 # TensorRT .bin model
-convert_onnx2torch('../effnetb0_unet_gray_2grass_iou55.onnx', '../effnetb0_unet_gray_2grass_iou55.bin')
+convert_onnx2trt('../effnetb0_unet_gray_2grass_iou55.onnx', '../effnetb0_unet_gray_2grass_iou55.bin')
 ```
