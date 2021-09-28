@@ -13,10 +13,14 @@ class PrecisionModes(Enum):
     # int8 = 'int8', '--int8'
 
 
-def convert_torch2onnx(in_model: torch.nn.Module, out_model_path: str, input_shape: Tuple[int, ...],
+def convert_torch2onnx(in_model: torch.nn.Module,
+                       out_model_path: str,
+                       input_shape: Tuple[int, ...],
                        input_names: Tuple[str] = ('input_0',),
                        output_names: Tuple[str] = ('output_0',),
-                       opset_version: int = 9):
+                       opset_version: int = 9,
+                       use_onnxsim: bool = True,
+                       ):
     """
     This function converts PyTorch models to ONNX using both built-in pytorch functionality
     and onnxsim package. The usage of onnxsim is important if you want to port the
@@ -34,6 +38,8 @@ def convert_torch2onnx(in_model: torch.nn.Module, out_model_path: str, input_sha
     model to ONNX. By default opset is set to 9. I was able to get correct results for segmentation
     models using this older opset. Despite the ONNX warnings, opsets higher than 11 yielded
     models with incorrect result in contrast with opsets 9 and 10.
+    :param use_onnxsim: Whether to use onnx-simplifier (https://github.com/daquexian/onnx-simplifier)
+    package. Defaults to true because it is often needed for later TensorRT conversion.
     """
     device = torch.device('cpu')
     in_model.to(device)
@@ -49,18 +55,22 @@ def convert_torch2onnx(in_model: torch.nn.Module, out_model_path: str, input_sha
                       verbose=True, output_names=output_names,
                       input_names=input_names, opset_version=opset_version)
 
-    # Simplify the ONNX network, it is needed for later TensorRT conversion
+    # Simplify the ONNX network
     # Some network backbones, like ResNet, should work without it, but for EfficientNet you need it
-    model_onnx = onnx.load(out_model_path)
-    model_simp, check = simplify(model_onnx)
-    assert check, "Simplified ONNX model could not be validated"
-
-    onnx.save(model_simp, out_model_path)
+    if use_onnxsim:
+        model_onnx = onnx.load(out_model_path)
+        model_simp, check = simplify(model_onnx)
+        assert check, "Simplified ONNX model could not be validated"
+        onnx.save(model_simp, out_model_path)
 
     print(f'Model exported to: {out_model_path}')
 
 
-def convert_onnx2trt(in_model: str, out_model_path: str, precision: str = 'fp16', workspace: int = 2048):
+def convert_onnx2trt(in_model: str,
+                     out_model_path: str,
+                     precision: str = 'fp16',
+                     workspace: int = 2048,
+                     ):
     """
     This function converts ONNX model to TensorRT using subprocess package and trtexec command line tool
     :param in_model: Path to ONNX model that needs to be converted to TensorRT
