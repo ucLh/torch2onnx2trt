@@ -7,6 +7,8 @@
 3) The rest of the requirements are listed in `requirements.txt` and can
  be installed automatically via `pip` installation
  
+Alternatively, you can skip installation of the requirements and use [this](https://hub.docker.com/r/uclh/tensorrt_pytorch) docker container 
+ 
 #### Installation
 There is `setup.py` file in the repo, so the installation is pretty 
 straightforward
