@@ -1,10 +1,10 @@
 from setuptools import find_packages, setup
 
 setup(
-    name='torch2trt',
+    name='torch2onnx2trt',
     version='0.1',
     packages=find_packages(exclude='tests'),
-    url='https://github.com/ucLh/torch2trt',
+    url='https://github.com/ucLh/torch2onnx2trt',
     license='MIT',
     author='Vladimir Luchinskiy',
     author_email='',

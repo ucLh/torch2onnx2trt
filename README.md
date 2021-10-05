@@ -13,14 +13,14 @@ Alternatively, you can skip installation of the requirements and use [this](http
 There is `setup.py` file in the repo, so the installation is pretty 
 straightforward
 ```
-git clone https://github.com/ucLh/torch2trt.git
-cd torch2trt
+git clone https://github.com/ucLh/torch2onnx2trt.git
+cd torch2onnx2trt
 pip3 install -e ./
 ```
 
 #### Usage
 ```python
-from torch2trt import convert_torch2onnx, convert_onnx2trt
+from torch2onnx2trt import convert_torch2onnx, convert_onnx2trt
 # Load your pretrained model
 pretrained_model = ...
 # You need to pass your model with loaded weights, an output path for onnx model

@@ -5,7 +5,7 @@ import onnxruntime as rt
 import torch
 from segmentation_models_pytorch import Unet
 
-from torch2trt import convert_torch2onnx
+from torch2onnx2trt import convert_torch2onnx
 
 
 class TestConversion(unittest.TestCase):
