@@ -13,6 +13,6 @@ setup(
     install_requires=[
         'onnx_simplifier>=0.3.6',
         'onnx>=1.9.0',
-        'pytorch-quantization>=2.1.0'
+        'pytorch-quantization'
     ],
 )
