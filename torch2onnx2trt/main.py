@@ -5,12 +5,15 @@ from typing import Tuple
 import onnx
 import torch
 from onnxsim import simplify
+from pytorch_quantization import nn as quant_nn
+from pytorch_quantization import quant_modules
 
 
 class PrecisionModes(Enum):
     fp32 = 'fp32', ''
     fp16 = 'fp16', '--fp16'
-    # int8 = 'int8', '--int8'
+    int8 = 'int8', '--int8'
+    # best = 'best', '--best'
 
 
 def convert_torch2onnx(in_model: torch.nn.Module,
@@ -18,8 +21,9 @@ def convert_torch2onnx(in_model: torch.nn.Module,
                        input_shape: Tuple[int, ...],
                        input_names: Tuple[str] = ('input_0',),
                        output_names: Tuple[str] = ('output_0',),
-                       opset_version: int = 9,
+                       opset_version: int = 13,
                        use_onnxsim: bool = True,
+                       int8: bool = False
                        ):
     """
     This function converts PyTorch models to ONNX using both built-in pytorch functionality
@@ -40,7 +44,13 @@ def convert_torch2onnx(in_model: torch.nn.Module,
     models with incorrect result in contrast with opsets 9 and 10.
     :param use_onnxsim: Whether to use onnx-simplifier (https://github.com/daquexian/onnx-simplifier)
     package. Defaults to true because it is often needed for later TensorRT conversion.
+    :param int8: Set to True, if the in_model parameter contains a model quantised via
+    pytorch_quantization (https://github.com/NVIDIA/TensorRT/tree/master/tools/pytorch-quantization)
     """
+    if int8:
+        quant_nn.TensorQuantizer.use_fb_fake_quant = True
+        quant_modules.initialize()
+
     device = torch.device('cpu')
     in_model.to(device)
     in_model.eval()
@@ -76,7 +86,7 @@ def convert_onnx2trt(in_model: str,
     :param in_model: Path to ONNX model that needs to be converted to TensorRT
     :param out_model_path: Output path for saving resulting TensorRT model
     :param precision: What precision to use for model conversion.
-    'fp32' and 'fp16' are the only available options for now
+    'fp32', 'fp16' and 'int8' are the available options.
     :param workspace: How much Mb of GPU memory to allocate for conversion
     """
     command = f'/usr/src/tensorrt/bin/trtexec --onnx={in_model} --explicitBatch --workspace={workspace} --saveEngine={out_model_path}'
