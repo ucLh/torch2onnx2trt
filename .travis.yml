@@ -8,7 +8,7 @@ python:
 install:
   - pip install torch
   - pip install segmentation-models.pytorch
-  - pip install -r requirements.txt
+  - pip install -r requirements.txt --extra-index-url https://pypi.ngc.nvidia.com
   - pip install onnxruntime
 # command to run tests
 script:
