@@ -1,6 +1,5 @@
 ### Convert PyTorch models to ONNX and then to TensorRT
-[![Build Status](https://app.travis-ci.com/ucLh/torch2trt.svg?branch=master)](https://app.travis-ci.com/ucLh/torch2trt)
-
+[![Build Status](https://app.travis-ci.com/ucLh/torch2onnx2trt.svg?branch=master)](https://app.travis-ci.com/ucLh/torch2onnx2trt)
 #### Requirements
 1) PyTorch (for int8 mode version 1.9 or higher is required)
 2) TensorRT (tested with 8.0)

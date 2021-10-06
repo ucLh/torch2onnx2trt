@@ -13,6 +13,7 @@ setup(
     install_requires=[
         'onnx_simplifier>=0.3.6',
         'onnx>=1.9.0',
+        'nvidia-pyindex',
         'pytorch-quantization'
     ],
 )
