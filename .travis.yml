@@ -1,14 +1,11 @@
 language: python
 python:
   - "3.6"      # current default Python on Travis CI
-  - "3.7"
   - "3.8"
 # command to install dependencies
 install:
   - pip install torch
   - pip install segmentation-models.pytorch
-  - pip install nvidia-pyindex
-  - pip install pytorch-quantization
   - pip install -r requirements.txt --extra-index-url https://pypi.ngc.nvidia.com
   - pip install onnxruntime
 # command to run tests
