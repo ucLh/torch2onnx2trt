@@ -34,7 +34,7 @@ class TestConversion(unittest.TestCase):
         diff = np.abs(onnx_pred - torch_pred)
 
         # Compare results. They are not very close
-        self.assertLess(np.mean(diff), 0.01)
+        self.assertLess(np.mean(diff), 0.02)
 
     def testOnnxInt8Conversion(self):
         # Use histogram calibrator as default one
@@ -72,4 +72,4 @@ class TestConversion(unittest.TestCase):
         diff = np.abs(onnx_pred - torch_pred)
 
         # Compare results. They are not very close
-        self.assertLess(np.mean(diff), 0.01)
+        self.assertLess(np.mean(diff), 0.02)
