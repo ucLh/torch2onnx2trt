@@ -9,8 +9,10 @@ setup(
     author='Vladimir Luchinskiy',
     author_email='',
     description='A simple package that wraps PyTorch models conversion to ONNX and TensorRT',
+    dependency_links=['https://pypi.ngc.nvidia.com'],
     install_requires=[
         'onnx_simplifier>=0.3.6',
         'onnx>=1.9.0',
+        'pytorch-quantization'
     ],
 )
