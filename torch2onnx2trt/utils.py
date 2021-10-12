@@ -35,4 +35,3 @@ def compute_amax(model, **kwargs):
                     module.load_calib_amax()
                 else:
                     module.load_calib_amax(**kwargs)
-    model.cuda()
