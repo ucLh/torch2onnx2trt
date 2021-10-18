@@ -4,3 +4,5 @@ __pycache__/
 *.onnx
 *.bin
 .idea/
+build/
+dist/

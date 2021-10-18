@@ -8,7 +8,7 @@ setup(
     name='torch2onnx2trt',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    version='0.1',
+    version='0.1.1',
     packages=find_packages(exclude='tests'),
     url='https://github.com/ucLh/torch2onnx2trt',
     license='MIT',
