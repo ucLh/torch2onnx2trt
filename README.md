@@ -14,6 +14,14 @@ Alternatively, you can skip installation of the requirements and use
 [this](https://hub.docker.com/r/uclh/tensorrt_pytorch) docker container 
  
 #### Installation
+
+##### From pypi
+The package can now be installed from pypi using command:
+```
+pip3 install torch2onnx2trt==0.1.1
+```
+
+##### From source
 There is `setup.py` file in the repo, so the installation is pretty 
 straightforward
 ```
