@@ -1,7 +1,13 @@
+from pathlib import Path
 from setuptools import find_packages, setup
+
+this_directory = Path(__file__).parent
+long_description = (this_directory / "README.md").read_text()
 
 setup(
     name='torch2onnx2trt',
+    long_description=long_description,
+    long_description_content_type='text/markdown',
     version='0.1',
     packages=find_packages(exclude='tests'),
     url='https://github.com/ucLh/torch2onnx2trt',
