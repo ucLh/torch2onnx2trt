@@ -1,3 +1,4 @@
+import logging
 import subprocess
 from enum import Enum
 from typing import Tuple
@@ -5,8 +6,11 @@ from typing import Tuple
 import onnx
 import torch
 from onnxsim import simplify
-from pytorch_quantization import nn as quant_nn
-from pytorch_quantization import quant_modules
+try:
+    from pytorch_quantization import nn as quant_nn
+    from pytorch_quantization import quant_modules
+except ImportError as e:
+    logging.warn('pytorch_quantization package is not installed')
 
 
 class PrecisionModes(Enum):
