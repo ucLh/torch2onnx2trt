@@ -1,5 +1,9 @@
-from pytorch_quantization import calib
-from pytorch_quantization import nn as quant_nn
+import logging
+try:
+    from pytorch_quantization import calib
+    from pytorch_quantization import nn as quant_nn
+except ImportError as e:
+    logging.warn('pytorch_quantization package is not installed. Conversion of int8 models is not available.')
 
 
 def collect_stats(model, input_tensor):

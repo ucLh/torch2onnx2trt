@@ -10,7 +10,7 @@ try:
     from pytorch_quantization import nn as quant_nn
     from pytorch_quantization import quant_modules
 except ImportError as e:
-    logging.warn('pytorch_quantization package is not installed')
+    logging.warn('pytorch_quantization package is not installed. Conversion of int8 models is not available')
 
 
 class PrecisionModes(Enum):
