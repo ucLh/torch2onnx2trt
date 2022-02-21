@@ -18,7 +18,7 @@ Alternatively, you can skip installation of the requirements and use
 ##### From pypi
 The package can now be installed from pypi using command:
 ```
-pip3 install torch2onnx2trt==0.1.1
+pip3 install torch2onnx2trt
 ```
 
 ##### From source
@@ -45,3 +45,6 @@ convert_torch2onnx(pretrained_model, 'effnetb0_unet_gray_2grass_iou55.onnx', (1,
 # TensorRT .bin model
 convert_onnx2trt('../effnetb0_unet_gray_2grass_iou55.onnx', '../effnetb0_unet_gray_2grass_iou55.bin')
 ```
+
+##### TensorRT supported layers
+You can find TensorRT supported layers on the their official [site](https://docs.nvidia.com/deeplearning/tensorrt/support-matrix/index.html#layers-matrix)
