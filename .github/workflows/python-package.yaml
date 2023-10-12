@@ -30,7 +30,6 @@ jobs:
         python -m pip install flake8 pytest
         python -m pip install torch segmentation-models.pytorch
         python -m pip install -r requirements.txt --extra-index-url https://pypi.ngc.nvidia.com
-        python -m pip install --no-cache-dir --extra-index-url https://pypi.nvidia.com pytorch-quantization
         python -m pip install onnxruntime
     # - name: Lint with flake8
     #   run: |
