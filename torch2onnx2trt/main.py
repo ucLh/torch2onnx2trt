@@ -24,7 +24,7 @@ def convert_torch2onnx(in_model: torch.nn.Module,
                        out_model_path: str,
                        input_shape: Tuple[int, ...],
                        input_names: Tuple[str] = ('input_0',),
-                       output_names: Tuple[str] = ('output_0',),
+                       output_names: Tuple[str, ...] = ('output_0',),
                        opset_version: int = 13,
                        use_onnxsim: bool = True,
                        int8: bool = False
@@ -93,7 +93,8 @@ def convert_onnx2trt(in_model: str,
     'fp32', 'fp16' and 'int8' are the available options.
     :param workspace: How much Mb of GPU memory to allocate for conversion
     """
-    command = f'/usr/src/tensorrt/bin/trtexec --onnx={in_model} --explicitBatch --workspace={workspace} --saveEngine={out_model_path}'
+    command = f'/usr/src/tensorrt/bin/trtexec --onnx={in_model} --explicitBatch --workspace={workspace}' \
+              f' --saveEngine={out_model_path}'
 
     use_precision = None
     for mode in PrecisionModes:
